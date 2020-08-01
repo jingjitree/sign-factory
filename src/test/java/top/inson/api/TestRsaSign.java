@@ -53,11 +53,10 @@ public class TestRsaSign {
         String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwr7GHhcQAVOl5QzmSkSUhzOAFZYztIXcktjlv0se59MnwuWwmyoz5HB7QmLN3L4K6IU7PjXWKb+Wr/nJuZEXdRDnPpO1z/rG8RM3nNh6gYOFRQqf1PAeXGh367kDfSS04n/MwKyurgZuG2hbKfD+MMxoy1qrIWuMETLs3UNo+zmJX4irexZd1DG6S8Q/NdKtY9/XpApoT0jh+ra3zTkBl1trPYpMgAgSRuLodjUIRyOfkI9PoYc9k7S+mprE7Mc2EijGtrh9cgwqGe9pzQ4UmSJkuleKN3gMher2ORtODoLkqT3WlKnWydOb3zB0JWdAZP4Qutb5nlnqpvuxnCELBQIDAQAB";
 
         IRSASHA256withRSAFactory rsaFactory = new RSASHA256withRSAFactoryImpl();
-        String encodeAlgorithms = "SHA-256";
         try {
-            String sign = rsaFactory.sign("123456", privateKey, encodeAlgorithms);
+            String sign = rsaFactory.sign("123456", privateKey);
             log.info("加密之后的数据sign:" + sign);
-            boolean verify = rsaFactory.verify("123456", sign, publicKey, encodeAlgorithms);
+            boolean verify = rsaFactory.verify("123456", sign, publicKey);
             log.info(verify);
         } catch (Exception e) {
             e.printStackTrace();

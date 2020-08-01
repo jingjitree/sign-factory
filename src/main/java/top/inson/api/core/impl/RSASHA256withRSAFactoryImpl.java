@@ -13,31 +13,34 @@ import java.security.Signature;
 public class RSASHA256withRSAFactoryImpl extends RSASignFactoryImpl implements IRSASHA256withRSAFactory {
 
     @Override
-    public String sign(String sourceData, String privateKey, String encodeAlgorithms) throws Exception {
-        //填充
+    public String sign(String sourceData, String privateKey) throws Exception {
+        /*
+        //摘要算法
         MessageDigest messageDigest = MessageDigest.getInstance(encodeAlgorithms);
         messageDigest.update(sourceData.getBytes());
         byte[] digest = messageDigest.digest();
-
+        */
         PrivateKey priKey = getPrivateKey(privateKey);
         Signature signature = Signature.getInstance(RSAConstants.SIGN_SHA256RSA_ALGORITHMS);
         signature.initSign(priKey);
-        signature.update(digest);
+        signature.update(sourceData.getBytes());
         byte[] sign = signature.sign();
         return Base64.encodeBase64String(sign);
     }
 
     @Override
-    public boolean verify(String sourceData, String encryptData, String publicKey, String encodeAlgorithms) throws Exception {
+    public boolean verify(String sourceData, String encryptData, String publicKey) throws Exception {
+        /*
         //填充
         MessageDigest messageDigest = MessageDigest.getInstance(encodeAlgorithms);
         messageDigest.update(sourceData.getBytes());
         byte[] digest = messageDigest.digest();
-
+        */
         PublicKey pubKey = getPublicKey(publicKey);
         Signature signature = Signature.getInstance(RSAConstants.SIGN_SHA256RSA_ALGORITHMS);
         signature.initVerify(pubKey);
-        signature.update(digest);
-        return signature.verify(Base64.decodeBase64(encryptData.getBytes()));
+        signature.update(sourceData.getBytes());
+        byte[] encrypt = Base64.decodeBase64(encryptData.getBytes());
+        return signature.verify(encrypt);
     }
 }
