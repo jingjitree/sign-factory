@@ -1,16 +1,20 @@
 package top.inson.api.core.impl;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.ArrayUtils;
-import sun.plugin2.message.Message;
 import top.inson.api.constants.RSAConstants;
 import top.inson.api.core.IRSASignFactory;
 
 import javax.crypto.Cipher;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Map;
+import java.util.UUID;
 
 public class RSASignFactoryImpl implements IRSASignFactory {
 
@@ -84,4 +88,59 @@ public class RSASignFactoryImpl implements IRSASignFactory {
         return keyFactory.generatePublic(keySpec);
     }
 
+    @Override
+    public Map<String, Object> generatorRsaKeyPair(int keySize) throws Exception {
+        if(keySize != RSAConstants.KEY_SIZE_1024 && keySize != RSAConstants.KEY_SIZE_2048)
+            return null;
+
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSAConstants.SIGN_RSA_ALGORITHMS);
+        keyPairGenerator.initialize(keySize);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        Key privateKey = keyPair.getPrivate();
+        Key publicKey = keyPair.getPublic();
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("privateKey", Base64.encodeBase64String(privateKey.getEncoded()));
+        result.put("publicKey", Base64.encodeBase64String(publicKey.getEncoded()));
+        return result;
+    }
+
+    @Override
+    public boolean generatorRsaKeyFile(int keySize, String filePath) throws Exception {
+        if(keySize != RSAConstants.KEY_SIZE_1024 && keySize != RSAConstants.KEY_SIZE_2048)
+            return false;
+
+        /** 为RSA算法创建一个KeyPairGenerator对象 */
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSAConstants.SIGN_RSA_ALGORITHMS);
+        /** 利用上面的随机数据源初始化这个KeyPairGenerator对象 */
+        keyPairGenerator.initialize(keySize, new SecureRandom(UUID.randomUUID().toString().getBytes()));
+        /** 生成密匙对 */
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        /** 得到公钥 */
+        Key publicKey = keyPair.getPublic();
+        /** 得到私钥 */
+        Key privateKey = keyPair.getPrivate();
+
+        File file = new File(filePath);
+        if(!file.exists())
+            file.mkdirs();
+        OutputStream pubStream = null;
+        OutputStream priStream = null;
+        try {
+            pubStream = new FileOutputStream(filePath + "/publicKey.pem");
+            priStream = new FileOutputStream(filePath + "/privateKey.pem");
+
+            pubStream.write(Base64.encodeBase64(publicKey.getEncoded()));
+            priStream.write(Base64.encodeBase64(privateKey.getEncoded()));
+            pubStream.flush();
+            priStream.flush();
+        }catch (Exception e){
+            throw e;
+        }finally {
+            if(priStream != null)
+                priStream.close();
+            if(pubStream != null)
+                pubStream.close();
+        }
+        return true;
+    }
 }

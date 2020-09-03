@@ -19,4 +19,8 @@ public final class RSAConstants {
     public static final String SIGN_SHA1RSA_ALGORITHMS = "SHA1WithRSA";
     public static final String SIGN_SHA256RSA_ALGORITHMS = "SHA256WithRSA";
 
+    public static final int KEY_SIZE_1024 = 1024;
+    public static final int KEY_SIZE_2048 = 2048;
+
+
 }

@@ -82,4 +82,20 @@ public class TestRsaSign {
 
     }
 
+    @Test
+    public void testGenerator(){
+        IRSASignFactory rsaSignFactory = new RSASignFactoryImpl();
+        try {
+            //Map<String, Object> result = rsaSignFactory.generatorRsaKeyPair(1024);
+            //log.info(result);
+            //{privateKey=MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIhNWlnNGwVniI+tMBH5uDw7swMV76c21IRCJnYfNzXz2dhzVntlounGyaTyCQCEnxLr0CfkBWG6w0BhpflWyj8Bj7E+TIdOsgKJEiafbsCFk70K2GHFMETZ7GSwsSruvxCRltIJU3AXwpRbjk42uwY4YbwtqbEPYScWqZh6d8gBAgMBAAECgYAMbcFHXwSPwZkaQNiZSwQZuffg2Cc6QC2wwbdwHfiS2uGKczn3lpT8bDwG5msbuPwoZYhdmtVCzBzxyfWwftGCOtnWar2lFxp4JTuffBfAEFE+EpqiKOujdoyyTT7f51LGtBrbMQyXBauyTONg27NUzHiqwrGCeABcq5mEeSGAAQJBANiGAAzFlgK0xITYH564DgrwwyjpR1tSF2msF63AMlBgqAiFjU/bNBQb6pBq4NTLu4qWbDnc0CFR87qCDzFkBcECQQChJxxDhDVKoySrTgt4WaV0Eb0PJASrwuqEdsEa4VQypRcFDz4Lul+PA+FJWltCOfrWV4LfDh0uXdKMNe092tJBAkB+rB55WlsBqEnUQjB1hc5JXkN+usNRTLx/yPttXiTRW0rS+XcLwf08ynw3EyAHvk0wrgIQ8/sbkztY4OAMkCzBAkEAiuWQwMikvg3bPyLnU/XAW0gmsXQT6o73XvCUA70Ouw/7xUqb6bPbRQLNHFIasfwTLMcEb4hUsm//VwXr0xJVgQJAQLj7iVuEBbezME+3RgPaLFnWP+9n24Ir0cuVXsWqtwdmEKwRp/aP8uUOri1axkSzjn6S3wQXSAwxCWDO+yCJew==,
+            // publicKey=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCITVpZzRsFZ4iPrTAR+bg8O7MDFe+nNtSEQiZ2Hzc189nYc1Z7ZaLpxsmk8gkAhJ8S69An5AVhusNAYaX5Vso/AY+xPkyHTrICiRImn27AhZO9CthhxTBE2exksLEq7r8QkZbSCVNwF8KUW45ONrsGOGG8LamxD2EnFqmYenfIAQIDAQAB}
+
+            rsaSignFactory.generatorRsaKeyFile(1024, "d:/developer/rsa");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
